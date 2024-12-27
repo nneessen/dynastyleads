@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledHeaderMenu = styled.ul`
+export const StyledHeaderMenu = styled.ul`
   display: flex;
   gap: 4rem;
   color: var(--color-grey-100);
