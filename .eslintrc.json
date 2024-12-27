@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "plugin:storybook/recommended",
+    "next",
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "prettier"
+  ],
+  "plugins": ["prettier"],
+  "globals": {
+    "React": "readonly"
+  },
+  "overrides": [
+    {
+      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"]
+    }
+  ],
+  "rules": {
+    "no-unused-vars": "warn"
+  },
+  "resolutions": {
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.cd77847.0"
+  }
+}
+

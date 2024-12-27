@@ -1,21 +1,51 @@
 {
-  "name": "solid-leads",
+  "name": "solid-backend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.10",
+    "@tanstack/react-query": "^5.62.10",
+    "@tanstack/react-query-devtools": "^5.62.10",
+    "axios": "^1.7.9",
+    "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.3"
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.4.0",
+    "stripe": "^17.5.0",
+    "styled-components": "^6.1.13",
+    "supabase": "^2.1.1"
   },
   "devDependencies": {
-    "eslint": "^9",
-    "eslint-config-next": "15.1.3",
-    "@eslint/eslintrc": "^3"
+    "@chromatic-com/storybook": "^3.2.3",
+    "@eslint/eslintrc": "^3",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/addon-interactions": "^8.4.7",
+    "@storybook/addon-onboarding": "^8.4.7",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
+    "@storybook/blocks": "^8.4.7",
+    "@storybook/nextjs": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/test": "^8.4.7",
+    "babel-plugin-styled-components": "^2.1.4",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "15.1.2",
+    "eslint-plugin-storybook": "^0.11.1",
+    "prettier": "^3.4.2",
+    "storybook": "^8.4.7"
   }
 }
