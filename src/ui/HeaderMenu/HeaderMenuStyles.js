@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Button from '../Button/Button';
 
 export const StyledHeaderMenu = styled.ul`
   display: flex;

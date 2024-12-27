@@ -1,7 +1,7 @@
 import { StyledHeaderMenu } from './HeaderMenuStyles';
 import Link from 'next/link';
-import { useUser } from '../features/auth/useUser';
-import { useLogout } from '../features/auth/useLogout';
+import { useUser } from '../../features/auth/useUser';
+import { useLogout } from '../../features/auth/useLogout';
 import Spinner from '../Spinner/Spinner';
 
 function HeaderMenu({ isOpen }) {

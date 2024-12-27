@@ -1,4 +1,5 @@
 import AppLayout from '@/ui/AppLayout/AppLayout';
+import { ReactQueryProvider } from './providers/ReactQueryProvider';
 
 export const metadata = {
   title: 'Create Next App',
@@ -9,7 +10,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <AppLayout>{children}</AppLayout>
+        <ReactQueryProvider>
+          <AppLayout>{children}</AppLayout>
+        </ReactQueryProvider>
       </body>
     </html>
   );
