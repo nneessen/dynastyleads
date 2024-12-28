@@ -1,44 +1,107 @@
-import React from 'react';
+import styled, { css } from 'styled-components';
 
-import PropTypes from 'prop-types';
-
-import './button.css';
-
-/** Primary UI component for user interaction */
-export const Button = ({ primary, backgroundColor, size, label, ...props }) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
-  return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      {...props}
-    >
-      {label}
-      <style jsx>{`
-        button {
-          background-color: ${backgroundColor};
-        }
-      `}</style>
-    </button>
-  );
+const sizes = {
+  small: css`
+    font-size: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--border-radius-sm);
+    text-transform: uppercase;
+    font-weight: 400;
+  `,
+  medium: css`
+    font-size: 1.4rem;
+    padding: 1.2rem 1.6rem;
+    font-weight: 500;
+  `,
+  large: css`
+    font-size: 1.6rem;
+    padding: 1.2rem 2.4rem;
+    font-weight: 500;
+  `
 };
 
-Button.propTypes = {
-  /** Is this the principal call to action on the page? */
-  primary: PropTypes.bool,
-  /** What background color to use */
-  backgroundColor: PropTypes.string,
-  /** How large should the button be? */
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
-  /** Button contents */
-  label: PropTypes.string.isRequired,
-  /** Optional click handler */
-  onClick: PropTypes.func,
+const baseStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-weight: 500;
+  background-color: transparent;
+`;
+
+const variations = {
+  primary: css`
+    ${baseStyle};
+    background-color: var(--color-accent-blue);
+    color: var(--color-grey-100);
+
+    &:hover {
+      color: var(--color-grey-100);
+      font-weight: 600;
+      background-color: var(--color-grey-900);
+    }
+  `,
+  secondary: css`
+    ${baseStyle};
+    background-color: var(--color-grey-300);
+    color: var(--color-grey-900);
+
+    &:hover {
+      backrgound-color: var(--color-grey-800);
+      color: var(--color-grey-0);
+    }
+  `,
+  danger: css`
+    ${baseStyle};
+    color: var(--color-accent-red);
+    border: 1px solid var(--color-accent-red);
+    box-shadow: var(--color-accent-red) var(--shadow-sm);
+
+    &:hover {
+      color: var(--color-accent-red);
+    }
+  `,
+  green: css`
+    ${baseStyle};
+    color: var(--color-accent-blue);
+  `,
+  glow: css`
+    ${baseStyle};
+    background-color: transparent;
+    color: ${({ $glowColor }) => $glowColor || 'var(--color-grey-100)'};
+    &:hover {
+      box-shadow: 0 0 10px
+        ${({ $glowColor }) => $glowColor || 'var(--color-accent-blue)'};
+    }
+  `
 };
+
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: var(--border-radius-md);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  ${({ $size }) => sizes[$size]}
+  ${({ $variation }) => variations[$variation]}
+
+  &:hover {
+    transform: scale(1.05); /* Slight scaling on hover */
+  }
+
+  &:active {
+    transform: scale(0.95); /* Slight shrinking on click */
+    box-shadow: var(--shadow-sm); /* Shadow reduces on click */
+  }
+`;
 
 Button.defaultProps = {
-  backgroundColor: null,
-  primary: false,
-  size: 'medium',
-  onClick: undefined,
+  $variation: 'primary',
+  $size: 'medium'
 };
+
+export default Button;
