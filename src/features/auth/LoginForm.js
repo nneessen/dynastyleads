@@ -1,10 +1,12 @@
+'use client';
+
 import { useState } from 'react';
-import { useLogin } from './useLogin';
-import Button from '../../ui/Button';
-import Form from '../../ui/Form';
-import Input from '../../ui/Input';
-import FormRowVertical from '../../ui/FormRowVertical';
-import SpinnerMini from '../../ui/SpinnerMini';
+import { useLogin } from './useLogin.js';
+import Button from '../../ui/Button/Button.js';
+import Form from '../../ui/Form/Form.js';
+import Input from '../../ui/Input/Input.js';
+import FormRowVertical from '../../ui/FormRowVertical/FormRowVertical.js';
+import SpinnerMini from '../../ui/SpinnerMini/SpinnerMini.js';
 
 function LoginForm() {
   const [formData, setFormData] = useState({

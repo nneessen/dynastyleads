@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "dev": "NODE_OPTIONS='--inspect' next dev"
-
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^3.1.1",

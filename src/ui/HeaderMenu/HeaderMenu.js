@@ -32,7 +32,7 @@ function HeaderMenu({ isOpen }) {
       <li>
         {!isAuthenticated ? (
           <Link
-            href="/login"
+            href="/auth/login"
             className={window.location.pathname === '/login' ? 'active' : ''}
           >
             Login
