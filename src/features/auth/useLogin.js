@@ -13,7 +13,7 @@ export function useLogin() {
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
       queryClient.setQueryData(['user'], user.user);
-      router.replace('/'); // Replaces the current history entry
+      router.replace('/campaigns'); // Replaces the current history entry
       toast.success('You are now logged in!');
     },
     onError: () => {
