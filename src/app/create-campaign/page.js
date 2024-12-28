@@ -13,7 +13,7 @@ import { MORTGAGE_PLAN_LEVELS } from '@/utils/constants';
 
 function CampaignForm({ onSubmit }) {
   const searchParams = useSearchParams();
-  const planType = searchParams.get('plan'); // Use Next.js' useSearchParams to get the query parameter
+  const planType = searchParams.get('plan');
 
   const { createCampaign, isCreating: isCreatingCampaign } =
     useCreateCampaign();
