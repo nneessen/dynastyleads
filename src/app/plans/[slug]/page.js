@@ -106,7 +106,7 @@ function PlanCard({ plan, router }) {
   const { name, descriptionShort, costPerLead, minPurchaseRequirement } = plan;
 
   return (
-    <DarkCard>
+    <Card bgColor={`var(--color-grey-900)`}>
       <PlanDescription>{descriptionShort}</PlanDescription>
       <Details>
         <strong>Cost Per Lead:</strong> ${costPerLead}
@@ -115,14 +115,15 @@ function PlanCard({ plan, router }) {
         <strong>Minimum Purchase:</strong> {minPurchaseRequirement} lead(s)
       </Details>
       <ButtonGroup>
-        <PlanButton
+        <Button
           $size="small"
           $variation="danger"
           onClick={() => router.push(`/plans/${name.toLowerCase()}`)}
         >
           Learn More
-        </PlanButton>
-        <PlanButton
+        </Button>
+        <div style={{ margin: '1rem' }} />
+        <Button
           $size="small"
           $variation="secondary"
           onClick={() =>
@@ -130,9 +131,9 @@ function PlanCard({ plan, router }) {
           }
         >
           Choose Plan
-        </PlanButton>
+        </Button>
       </ButtonGroup>
-    </DarkCard>
+    </Card>
   );
 }
 
@@ -162,14 +163,16 @@ const PlansGrid = styled.div`
   padding: 1rem;
 `;
 
-const DarkCard = styled(Card)`
-  color: var(--color-grey-100);
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
+// const DarkCard = styled(Card)`
+//   color: var(--color-grey-900);
+//   margin: 1rem;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   height: 100%;
+// `;
+
+// const DarkCard = styled(Card)``;
 
 const ButtonGroup = styled.div`
   margin-top: auto;
@@ -182,7 +185,7 @@ const PlanDescription = styled.div`
   margin-bottom: 2rem;
   font-size: 1.25rem;
   font-weight: 300;
-  color: var(--color-grey-100);
+  color: var(--color-grey-500);
 `;
 
 const Details = styled.div`

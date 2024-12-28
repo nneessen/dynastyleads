@@ -17,6 +17,7 @@ const GlowButton = styled.button`
   text-transform: uppercase;
   font-size: 1rem;
   border: none;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
   box-shadow: 0 0 5px var(--color-grey-100);
   transition: box-shadow 0.3s ease;

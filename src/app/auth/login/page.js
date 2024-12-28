@@ -6,19 +6,18 @@ import Heading from '../../../ui/Heading/Heading.js';
 import LoginForm from '../../../features/auth/LoginForm.js';
 
 const LoginLayout = styled.main`
-  min-height: 100vh;
+  min-height: 75vh;
   display: grid;
   grid-template-columns: 48rem;
   align-content: center;
   justify-content: center;
   gap: 3.2rem;
-  background-color: var(--color-grey-900);
 `;
 
 const ToggleButton = styled.button`
   background: none;
   border: none;
-  color: var(--color-primary);
+  color: var(--color-grey-100);
   font-size: 1rem;
   cursor: pointer;
   text-decoration: underline;
