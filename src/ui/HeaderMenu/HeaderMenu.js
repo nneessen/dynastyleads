@@ -1,7 +1,7 @@
-import { StyledHeaderMenu } from './HeaderMenuStyles';
+import { StyledHeaderMenu, StyledLogoutButton } from './HeaderMenuStyles';
 import Link from 'next/link';
-import { useUser } from '../../features/auth/useUser';
-import { useLogout } from '../../features/auth/useLogout';
+import { useUser } from '@/features/auth/useUser';
+import { useLogout } from '@/features/auth/useLogout';
 import Spinner from '../Spinner/Spinner';
 
 function HeaderMenu({ isOpen }) {
@@ -21,21 +21,21 @@ function HeaderMenu({ isOpen }) {
     <StyledHeaderMenu isOpen={isOpen}>
       {menuItems.map(({ href, label }) => (
         <li key={href}>
-          <Link href={href} passHref>
-            <a className={href === window.location.pathname ? 'active' : ''}>
-              {label}
-            </a>
+          <Link
+            href={href}
+            className={href === window.location.pathname ? 'active' : ''}
+          >
+            {label}
           </Link>
         </li>
       ))}
       <li>
         {!isAuthenticated ? (
-          <Link href="/login" passHref>
-            <a
-              className={window.location.pathname === '/login' ? 'active' : ''}
-            >
-              Login
-            </a>
+          <Link
+            href="/login"
+            className={window.location.pathname === '/login' ? 'active' : ''}
+          >
+            Login
           </Link>
         ) : (
           <StyledLogoutButton onClick={logout}>Logout</StyledLogoutButton>
