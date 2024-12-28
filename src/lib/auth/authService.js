@@ -1,6 +1,6 @@
 import supabase from '../supabase/client';
 
-export const signupUser = async (userData) => {
+export const signup = async (userData) => {
   const {
     email,
     password,
@@ -64,7 +64,7 @@ export const signupUser = async (userData) => {
   }
 };
 
-export const loginUser = async ({ email, password }) => {
+export const login = async ({ email, password }) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -72,20 +72,19 @@ export const loginUser = async ({ email, password }) => {
     });
 
     if (error || !data.session) {
-      console.log('Login error:', error);
       throw new Error(
         error?.message || 'Login failed. Please check your credentials.'
       );
     }
 
-    console.log('User login successful!');
+    localStorage.setItem('accessToken', data.session.access_token);
+
     return {
       user: data.user,
       accessToken: data.session.access_token,
-      refreshToken: data.session.refresh_token // optional for token refresh
+      refreshToken: data.session.refresh_token
     };
   } catch (err) {
-    console.error('Login process error:', err);
     throw new Error(`Login error: ${err.message}`);
   }
 };
@@ -107,7 +106,7 @@ export const getUserById = async (id) => {
   }
 };
 
-export const updateUser = async (id, updates) => {
+export const update = async (id, updates) => {
   try {
     const { full_name, password, ...userTableUpdates } = updates;
 

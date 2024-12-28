@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { logout as logoutApi } from '@/lib/auth/authService';
+import { logout as logoutApi } from '../../lib/auth/authService.js';
 import { useRouter } from 'next/navigation';
 
 export function useLogout() {

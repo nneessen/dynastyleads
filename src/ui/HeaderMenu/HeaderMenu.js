@@ -1,4 +1,4 @@
-import { StyledHeaderMenu, StyledLogoutButton } from './HeaderMenuStyles';
+import { StyledHeaderMenu, StyledLogoutButton } from './HeaderMenuStyles.js';
 import Link from 'next/link';
 import { useUser } from '@/features/auth/useUser';
 import { useLogout } from '@/features/auth/useLogout';

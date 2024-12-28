@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button from '../Button/Button';
+import Button from '@/ui/Button/Button';
 
 export const StyledHeaderMenu = styled.ul`
   display: flex;
@@ -40,7 +40,7 @@ export const StyledHeaderMenu = styled.ul`
   }
 `;
 
-const StyledLogoutButton = styled(Button)`
+export const StyledLogoutButton = styled(Button)`
   background: none;
   border: none;
   color: var(--color-grey-100);

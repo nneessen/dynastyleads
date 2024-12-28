@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useLogin } from './useLogin.js';
+import { useLogin } from '@/features/auth/useLogin.js';
 import Button from '../../ui/Button/Button.js';
 import Form from '../../ui/Form/Form.js';
 import Input from '../../ui/Input/Input.js';
