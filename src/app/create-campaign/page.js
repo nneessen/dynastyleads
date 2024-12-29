@@ -1,10 +1,10 @@
 'use client';
 
-import MultiStepForm from '@/ui/MultiStepForm/MultiStepForm';
-import NameCampaignStep from '@/features/forms/NameCampaignStep/NameCampaignStep';
-import BudgetStep from '@/features/forms/Budget/Budget';
-import StatesStep from '@/features/forms/StatesStep/StatesStep';
-import SubmitStep from '@/features/forms/SubmitStep/SubmitStep';
+import MultiStepForm from '../../ui/MultiStepForm/MultiStepForm.js';
+import NameCampaignStep from '../../features/forms/NameCampaignStep/NameCampaignStep.js';
+import BudgetStep from '../../features/forms/Budget/Budget.js';
+import StatesStep from '../../features/forms/StatesStep/StatesStep.js';
+import SubmitStep from '../../features/forms/SubmitStep/SubmitStep.js';
 import toast from 'react-hot-toast';
 import { useCreateCampaign } from '@/features/campaigns/useCreateCampaign';
 import { useCreateAdSet } from '@/features/adSets/useCreateAdSet';

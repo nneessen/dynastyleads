@@ -99,7 +99,8 @@ function MultiStepForm({ steps, initialData, onSubmit, leftContent }) {
     onSubmit(formData);
   }
 
-  const StepComponent = steps[currentStepIndex];
+  const StepComponent =
+    steps[currentStepIndex] || (() => <div>Step Not Found</div>);
 
   return (
     <PageContainer>
