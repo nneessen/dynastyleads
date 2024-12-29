@@ -1,4 +1,4 @@
-import supabase from '../supabase/client';
+import supabase from '../../utils/supabase/middleware.js';
 
 export const createCampaign = async (campaignData) => {
   const {
