@@ -1,3 +1,4 @@
+import { useSearchParams } from 'next/navigation';
 import MultiStepForm from '../../../ui/MultiStepForm/MultiStepForm.js';
 import NameCampaignStep from '../NameCampaignStep/NameCampaignStep.js';
 import BudgetStep from '../Budget/Budget.js';
@@ -6,16 +7,15 @@ import SubmitStep from '../SubmitStep/SubmitStep.js';
 import toast from 'react-hot-toast';
 import { useCreateCampaign } from '../../../features/campaigns/useCreateCampaign.js';
 import { useCreateAdSet } from '../../adSets/useCreateAdSet.js';
-import { useSearchParams } from 'react-router-dom';
 import { MORTGAGE_PLAN_LEVELS } from '../../utils/constants';
 
 function CampaignForm({ onSubmit }) {
+  const searchParams = useSearchParams();
+  const planType = searchParams.get('plan');
+
   const { createCampaign, isCreating: isCreatingCampaign } =
     useCreateCampaign();
   const { createAdSet, isCreating: isCreatingAdSet } = useCreateAdSet();
-
-  const [searchParams] = useSearchParams();
-  const planType = searchParams.get('plan');
 
   const selectedPlan = MORTGAGE_PLAN_LEVELS.find(
     (plan) => plan.name === planType
