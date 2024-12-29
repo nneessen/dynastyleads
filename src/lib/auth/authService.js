@@ -89,6 +89,20 @@ export const login = async ({ email, password }) => {
   }
 };
 
+export async function logout() {
+  try {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      throw new Error(`Logout failed: ${error.message}`);
+    }
+
+    return { success: true, message: 'Logged out successfully' };
+  } catch (error) {
+    throw new Error(`Logout error: ${error.message}`);
+  }
+}
+
 export const getUserById = async (id) => {
   try {
     const { data, error } = await supabase
@@ -157,4 +171,17 @@ export const deleteUser = async (id) => {
     console.error('Error deleting user:', err);
     throw new Error(`Failed to delete user: ${err.message}`);
   }
+};
+
+export const getCurrentUser = async () => {
+  const {
+    data: { user },
+    error
+  } = await supabase.auth.getUser();
+
+  if (error) {
+    throw new Error(`Failed to get current user: ${error.message}`);
+  }
+
+  return user;
 };

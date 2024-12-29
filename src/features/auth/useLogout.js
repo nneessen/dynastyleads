@@ -12,7 +12,7 @@ export function useLogout() {
     mutationFn: logoutApi,
     onSuccess: () => {
       queryClient.clear();
-      router.replace('/login');
+      router.replace('/auth/login');
     }
   });
 
