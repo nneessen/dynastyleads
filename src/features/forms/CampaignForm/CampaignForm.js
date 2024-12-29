@@ -7,7 +7,7 @@ import SubmitStep from '../SubmitStep/SubmitStep.js';
 import toast from 'react-hot-toast';
 import { useCreateCampaign } from '../../../features/campaigns/useCreateCampaign.js';
 import { useCreateAdSet } from '../../adSets/useCreateAdSet.js';
-import { MORTGAGE_PLAN_LEVELS } from '../../utils/constants';
+import { MORTGAGE_PLAN_LEVELS } from '../../../utils/constants.js';
 
 function CampaignForm({ onSubmit }) {
   const searchParams = useSearchParams();
