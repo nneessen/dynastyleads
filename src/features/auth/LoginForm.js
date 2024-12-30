@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Button from '@/ui/Button';
-import Form from '../../ui/Form/Form.js';
-import Input from '../../ui/Input/Input.js';
-import FormRowVertical from '../../ui/FormRowVertical/FormRowVertical.js';
-import SpinnerMini from '../../ui/SpinnerMini/SpinnerMini.js';
+import Form from '../../ui/Form/index.js';
+import Input from '../../ui/Input/index.js';
+import FormRowVertical from '../../ui/FormRowVertical/index.js';
+import SpinnerMini from '../../ui/SpinnerMini/index.js';
 import toast from 'react-hot-toast';
 
 function LoginForm() {

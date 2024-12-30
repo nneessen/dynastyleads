@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '../../../../utils/supabase/client.js';
 import LoginForm from '@/features/auth/LoginForm';
 import SignupForm from '@/features/auth/SignupForm';
-import Heading from '../../../../ui/Heading/Heading.js';
+import Heading from '../../../../ui/Heading/index.js';
 
 const LoginLayout = styled.main`
   min-height: 75vh;

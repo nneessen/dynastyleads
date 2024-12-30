@@ -1,5 +1,5 @@
 import HeaderMenu from '../HeaderMenu/HeaderMenu';
-import Logo from './Logo';
+import Logo from '@/ui/Logo';
 import styled from 'styled-components';
 
 export const StyledHeader = styled.header`

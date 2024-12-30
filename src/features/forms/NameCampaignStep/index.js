@@ -1,7 +1,7 @@
 'use client';
 import styled from 'styled-components';
-import Heading from '../../../ui/Heading/Heading.js';
-import Input from '../../../ui/Input/Input.js';
+import Heading from '@/ui/Heading';
+import Input from '@/ui/Input';
 
 function NameCampaignStep({ formData, updateData }) {
   return (

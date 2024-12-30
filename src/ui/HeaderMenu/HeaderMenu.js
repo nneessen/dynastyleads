@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useUser } from '@/features/auth/useUser';
 import { useLogout } from '@/features/auth/useLogout';
-import Spinner from '../Spinner/Spinner';
+import Spinner from '../Spinner';
 import styled from 'styled-components';
 import Button from '../Button';
 

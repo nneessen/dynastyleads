@@ -9,7 +9,7 @@ import {
   FaUsers
 } from 'react-icons/fa';
 import ChooseCampaign from '@/features/campaigns/ChooseCampaign';
-import Heading from '@/ui/Heading/Heading';
+import Heading from '@/ui/Heading';
 
 export default function CampaignsPage() {
   const campaigns = [

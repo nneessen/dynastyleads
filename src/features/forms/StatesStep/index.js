@@ -1,4 +1,4 @@
-import Heading from '../../../ui/Heading/Heading.js';
+import Heading from '@/ui/Heading';
 import CheckboxGroup from '../../../ui/CheckboxGroup/index.js';
 import styled from 'styled-components';
 import statesJson from '../../../data/states.json';

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Input from '../../../ui/Input/Input.js';
-import Heading from '../../../ui/Heading/Heading.js';
+import Input from '../../../ui/Input/index.js';
+import Heading from '../../../ui/Heading/index.js';
 
 function BudgetStep({ formData, updateData }) {
   return (

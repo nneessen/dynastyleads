@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Header from '../Header/Header';
+import Header from '../Header';
 import styled from 'styled-components';
 
 export const PageWrapper = styled.div`

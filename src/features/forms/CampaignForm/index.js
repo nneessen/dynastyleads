@@ -1,11 +1,11 @@
 import { useSearchParams } from 'next/navigation';
-import MultiStepForm from '../../../ui/MultiStepForm/MultiStepForm.js';
-import NameCampaignStep from '../NameCampaignStep/NameCampaignStep.js';
-import BudgetStep from '../Budget/Budget.js';
-import StatesStep from '../StatesStep/StatesStep.js';
-import SubmitStep from '../SubmitStep/SubmitStep.js';
+import MultiStepForm from '../../../ui/MultiStepForm/index.js';
+import NameCampaignStep from '../NameCampaignStep/index.js';
+import BudgetStep from '../BudgetStep/index.js';
+import StatesStep from '../StatesStep/index.js';
+import SubmitStep from '../SubmitStep/index.js';
 import toast from 'react-hot-toast';
-import { useCreateCampaign } from '../../../features/campaigns/useCreateCampaign.js';
+import { useCreateCampaign } from '../../campaigns/useCreateCampaign.js';
 import { useCreateAdSet } from '../../adSets/useCreateAdSet.js';
 import { MORTGAGE_PLAN_LEVELS } from '../../../utils/constants.js';
 

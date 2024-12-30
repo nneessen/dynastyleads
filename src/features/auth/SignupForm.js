@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@/ui/Button';
-import Form from '@/ui/Form/Form.js';
-import SpinnerMini from '@/ui/SpinnerMini/SpinnerMini.js';
+import Form from '@/ui/Form/index.js';
+import SpinnerMini from '@/ui/SpinnerMini/index.js';
 import { useSignup } from './useSignup';
 
 const Input = styled.input`

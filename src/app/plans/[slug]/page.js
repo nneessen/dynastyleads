@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Card from '@/ui/Card';
-import Row from '@/ui/Row/Row';
-import Heading from '@/ui/Heading/Heading';
+import Row from '@/ui/Row';
+import Heading from '@/ui/Heading';
 import Button from '@/ui/Button';
 
 const plansByCampaign = {

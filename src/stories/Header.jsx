@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import HeaderMenu from '../ui/HeaderMenu/HeaderMenu.js';
-import Logo from '../ui/Logo/Logo.js';
+import Logo from '../ui/Logo/index.js';
 
 const StyledHeader = styled.header`
   background-color: transparent;
