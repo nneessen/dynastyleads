@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
 import styled from 'styled-components';
-import ButtonGroup from '@/ui/ButtonGroup/ButtonGroup';
-import Button from '@/ui/Button/Button';
-import Heading from '@/ui/Heading/Heading';
+import ButtonGroup from '../ButtonGroup';
+import Button from '../Button';
+import Heading from '../Heading';
 
 const PageContainer = styled.div`
   display: grid;

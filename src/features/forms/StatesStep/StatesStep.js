@@ -1,5 +1,5 @@
 import Heading from '../../../ui/Heading/Heading.js';
-import CheckboxGroup from '../../../ui/CheckboxGroup/CheckboxGroup.js';
+import CheckboxGroup from '../../../ui/CheckboxGroup/index.js';
 import styled from 'styled-components';
 import statesJson from '../../../data/states.json';
 

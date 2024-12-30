@@ -1,6 +1,6 @@
 'use client';
 
-import MultiStepForm from '../../ui/MultiStepForm/MultiStepForm.js';
+import MultiStepForm from '@/ui/MultiStepForm';
 import NameCampaignStep from '../../features/forms/NameCampaignStep/NameCampaignStep.js';
 import BudgetStep from '../../features/forms/Budget/Budget.js';
 import StatesStep from '../../features/forms/StatesStep/StatesStep.js';

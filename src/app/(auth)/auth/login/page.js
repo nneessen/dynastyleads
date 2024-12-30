@@ -9,13 +9,12 @@ import SignupForm from '@/features/auth/SignupForm';
 import Heading from '../../../../ui/Heading/Heading.js';
 
 const LoginLayout = styled.main`
-  min-height: 100vh;
+  min-height: 75vh;
   display: grid;
   grid-template-columns: 48rem;
   align-content: center;
   justify-content: center;
   gap: 3.2rem;
-  background-color: var(--color-grey-900);
 `;
 
 const ToggleButton = styled.button`

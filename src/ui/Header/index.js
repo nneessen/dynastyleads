@@ -1,3 +1,5 @@
+import HeaderMenu from '../HeaderMenu/HeaderMenu';
+import Logo from './Logo';
 import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
@@ -15,3 +17,12 @@ export const StyledHeader = styled.header`
     gap: 1.6rem;
   }
 `;
+
+export default function Header() {
+  return (
+    <StyledHeader>
+      <Logo />
+      <HeaderMenu />
+    </StyledHeader>
+  );
+}
