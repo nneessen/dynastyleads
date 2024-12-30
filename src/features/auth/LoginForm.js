@@ -7,11 +7,17 @@ import Input from '../../ui/Input/index.js';
 import FormRowVertical from '../../ui/FormRowVertical/index.js';
 import SpinnerMini from '../../ui/SpinnerMini/index.js';
 import toast from 'react-hot-toast';
+import { z } from 'zod';
 
-function LoginForm() {
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters long')
+});
+
+function LoginForm({ supabase, onSuccess }) {
   const [formData, setFormData] = useState({
-    email: 'nick@nickneessen.com',
-    password: 'N123j234n345!$!$'
+    email: '',
+    password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,32 +28,32 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-
-    if (!email || !password) {
-      toast.error('Please fill in all fields');
-      return;
-    }
-
-    setIsLoading(true);
     try {
-      const res = await fetch('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      // Validate form data using Zod
+      loginSchema.parse(formData);
+
+      setIsLoading(true);
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password
       });
 
-      if (!res.ok) {
-        const { message } = await res.json();
-        throw new Error(message || 'Login failed');
+      if (error) {
+        throw new Error(error.message);
       }
 
       toast.success('Login successful!');
       setFormData({ email: '', password: '' });
+      if (onSuccess) onSuccess();
     } catch (error) {
-      toast.error(error.message);
+      if (error instanceof z.ZodError) {
+        // Handle Zod validation errors
+        toast.error(error.errors[0].message);
+      } else {
+        // Handle other errors
+        toast.error(error.message || 'Login failed');
+      }
     } finally {
       setIsLoading(false);
     }

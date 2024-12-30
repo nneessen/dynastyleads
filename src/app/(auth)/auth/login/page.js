@@ -38,7 +38,7 @@ function LoginPage() {
   const toggleMode = () => setIsSignup((prev) => !prev);
 
   const handleAuthSuccess = () => {
-    router.push('/dashboard'); // Replace with your authenticated route
+    router.push('/campaigns');
   };
 
   return (

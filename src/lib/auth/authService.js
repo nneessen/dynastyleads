@@ -1,4 +1,4 @@
-import { createClient } from '../../utils/supabase/client.js';
+import { createClient } from '@/utils/supabase/client';
 
 const supabase = createClient();
 
@@ -66,8 +66,6 @@ export const login = async ({ email, password }) => {
       email,
       password
     });
-
-    console.log(email, password);
 
     if (error || !data.session) {
       throw new Error(

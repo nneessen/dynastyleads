@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { createClient } from '@/utils/supabase/server';
 import { login as loginUser } from '../../../../lib/auth/authService.js';
+import toast from 'react-hot-toast';
 
 export async function login(formData) {
   const { error } = await loginUser(
@@ -16,6 +17,7 @@ export async function login(formData) {
     redirect('/error');
   }
 
+  toast.success('You are now logged in!');
   revalidatePath('/', 'layout');
   redirect('/');
 }
