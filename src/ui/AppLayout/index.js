@@ -1,3 +1,6 @@
+'use client';
+import { useState } from 'react';
+import Header from '../Header/Header';
 import styled from 'styled-components';
 
 export const PageWrapper = styled.div`
@@ -24,3 +27,19 @@ export const Footer = styled.footer`
   padding: 20px;
   margin-top: 10px;
 `;
+
+const AppLayout = ({ children, ref }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <PageWrapper>
+      <Header menuOpen={menuOpen} landingPageRef={ref} />
+      <LayoutContainer>{children}</LayoutContainer>
+      <Footer>
+        <p>&copy; 2024 Solid Leads</p>
+      </Footer>
+    </PageWrapper>
+  );
+};
+
+export default AppLayout;

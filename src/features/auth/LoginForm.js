@@ -31,7 +31,7 @@ function LoginForm() {
 
     setIsLoading(true);
     try {
-      const res = await fetch('/login', {
+      const res = await fetch('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: {

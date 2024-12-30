@@ -1,4 +1,6 @@
-import { supabase } from '../../utils/supabase/middleware';
+import { createClient } from '../../utils/supabase/client.js';
+
+const supabase = createClient();
 
 export const signup = async (userData) => {
   const {
@@ -18,7 +20,6 @@ export const signup = async (userData) => {
   } = userData;
 
   try {
-    console.log('Starting Supabase Auth user creation...');
     const { data: authData, error: authError } =
       await supabase.auth.admin.createUser({
         email,
@@ -28,13 +29,11 @@ export const signup = async (userData) => {
       });
 
     if (authError) {
-      console.error('Auth creation error:', authError);
       throw new Error(`Auth creation failed: ${authError.message}`);
     }
 
     const userId = authData.user.id; // UUID from Supabase Auth
 
-    console.log('Inserting into users table...');
     const { data, error } = await supabase.from('users').insert({
       id: userId,
       email,
@@ -52,14 +51,11 @@ export const signup = async (userData) => {
     });
 
     if (error) {
-      console.error('Users table insertion error:', error);
       throw new Error(`Users table insertion failed: ${error.message}`);
     }
 
-    console.log('User successfully created!');
     return authData.user; // Return the created user object
   } catch (err) {
-    console.error('Signup process error:', err);
     throw new Error(`Failed to create user: ${err.message}`);
   }
 };
@@ -71,18 +67,19 @@ export const login = async ({ email, password }) => {
       password
     });
 
+    console.log(email, password);
+
     if (error || !data.session) {
       throw new Error(
         error?.message || 'Login failed. Please check your credentials.'
       );
     }
 
-    localStorage.setItem('accessToken', data.session.access_token);
-
     return {
       user: data.user,
       accessToken: data.session.access_token,
-      refreshToken: data.session.refresh_token
+      refreshToken: data.session.refresh_token,
+      error
     };
   } catch (err) {
     throw new Error(`Login error: ${err.message}`);

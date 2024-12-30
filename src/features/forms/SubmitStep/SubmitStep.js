@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Heading from '../../../ui/Heading/Heading.js';
+import Heading from '@/ui/Heading/Heading';
 
 function SubmitStep({ formData, onSubmit }) {
   return (
