@@ -1,7 +1,7 @@
 'use client';
 
 import { ServerStyleSheet } from 'styled-components';
-import AppLayout from '@/ui/AppLayout/AppLayout';
+import AppLayout from '@/ui/AppLayout';
 import { ReactQueryProvider } from './providers/ReactQueryProvider';
 import GlobalStyles from '../styles/GlobalStyles.js';
 

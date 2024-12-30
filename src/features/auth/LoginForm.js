@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '../../ui/Button/Button.js';
+import Button from '@/ui/Button';
 import Form from '../../ui/Form/Form.js';
 import Input from '../../ui/Input/Input.js';
 import FormRowVertical from '../../ui/FormRowVertical/FormRowVertical.js';
