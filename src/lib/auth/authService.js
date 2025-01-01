@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/client';
 
 const supabase = createClient();
 
-export const signup = async (userData) => {
+export const signupUser = async (userData) => {
   const {
     email,
     password,
@@ -60,7 +60,7 @@ export const signup = async (userData) => {
   }
 };
 
-export const login = async ({ email, password }) => {
+export const loginUser = async ({ email, password }) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -84,7 +84,7 @@ export const login = async ({ email, password }) => {
   }
 };
 
-export async function logout() {
+export async function logoutUser() {
   try {
     const { error } = await supabase.auth.signOut();
 
@@ -115,7 +115,7 @@ export const getUserById = async (id) => {
   }
 };
 
-export const update = async (id, updates) => {
+export const updateUser = async (id, updates) => {
   try {
     const { full_name, password, ...userTableUpdates } = updates;
 
