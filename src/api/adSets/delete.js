@@ -1,9 +1,9 @@
-import { createAdSet } from '@/lib/adSets/adSetService';
+import { deleteAdSet } from '@/lib/adSets/adSetService';
 import { handleSuccess, handleError } from '../utils/responseHandler';
 import { ERROR_CODES } from '../utils/errorCodes';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'DELETE') {
     return handleError(
       res,
       new Error(ERROR_CODES.METHOD_NOT_ALLOWED.message),
@@ -13,11 +13,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Example expected fields: name, budget, userId, etc.
-    // Adjust as needed for your adSets
-    const { name, budget, userId } = req.body;
+    // Similar to update, you can pass adSetId in req.query if using dynamic routes, or in req.body.
+    const { adSetId } = req.query; // Example for /api/adSets/delete/[adSetId]
 
-    if (!name || !budget || !userId) {
+    if (!adSetId) {
       return handleError(
         res,
         new Error(ERROR_CODES.BAD_REQUEST.message),
@@ -26,9 +25,8 @@ export default async function handler(req, res) {
       );
     }
 
-    // Call your service function to create the ad set
-    const data = await createAdSet({ name, budget, userId });
-    return handleSuccess(res, data, 201);
+    const deletedAdSet = await deleteAdSet(adSetId);
+    return handleSuccess(res, deletedAdSet, 200);
   } catch (error) {
     return handleError(res, error);
   }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import CheckoutForm from '../features/payments/CheckoutForm';
+import CheckoutForm from '@/features/checkout/CheckoutForm';
 
 const stripePromise = loadStripe(
   'pk_test_51QWSMCAzbiPyr476ahne6iavC2R1YqsR89ZHRbGat0BMb74ivA3XK8RyRKHmn3biByMxF9dBZHBykU5CW1SyBMl100l1QBGo9e'

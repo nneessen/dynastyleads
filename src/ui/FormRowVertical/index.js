@@ -9,20 +9,24 @@ const StyledFormRow = styled.div`
 `;
 
 const Label = styled.label`
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: inherit;
   font-weight: 400;
-  filter: invert(1);
+  /* filter: invert(1); // remove unless you specifically want inverted color */
 `;
 
 const Error = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
+  margin: 0.25rem 0 0 0;
 `;
 
-function FormRowVertical({ label, error, children }) {
+function FormRowVertical({ label, error, children, ...props }) {
+  if (!props.id) {
+    console.error(`FormRowVertical requires an 'id' prop. Received:`, props);
+  }
   return (
-    <StyledFormRow>
-      {label && <Label htmlFor={children.props.id}>{label}</Label>}
+    <StyledFormRow {...props}>
+      {label && <Label htmlFor={props.id}>{label}</Label>}
       {children}
       {error && <Error>{error}</Error>}
     </StyledFormRow>

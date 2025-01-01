@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import Button from '@/ui/Button';
-import Form from '../../ui/Form/index.js';
-import Input from '../../ui/Input/index.js';
-import FormRowVertical from '../../ui/FormRowVertical/index.js';
-import SpinnerMini from '../../ui/SpinnerMini/index.js';
+import Form from '@/ui/Form';
+import FormField from '@/ui/FormField';
+import SpinnerMini from '@/ui/SpinnerMini';
 import toast from 'react-hot-toast';
+import { loginUser } from '@/lib/auth/authService';
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -14,10 +14,10 @@ const loginSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters long')
 });
 
-function LoginForm({ supabase, onSuccess }) {
+function LoginForm({ onSuccess }) {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: 'nick@nickneessen.com',
+    password: 'N123j234n345!$!$'
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,29 +29,22 @@ function LoginForm({ supabase, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Validate form data using Zod
       loginSchema.parse(formData);
 
       setIsLoading(true);
-
-      const { error } = await supabase.auth.signInWithPassword({
+      const { user } = await loginUser({
         email: formData.email,
         password: formData.password
       });
 
-      if (error) {
-        throw new Error(error.message);
-      }
-
       toast.success('Login successful!');
       setFormData({ email: '', password: '' });
-      if (onSuccess) onSuccess();
+
+      if (onSuccess) onSuccess(user);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Handle Zod validation errors
         toast.error(error.errors[0].message);
       } else {
-        // Handle other errors
         toast.error(error.message || 'Login failed');
       }
     } finally {
@@ -78,20 +71,10 @@ function LoginForm({ supabase, onSuccess }) {
         onChange={handleInputChange}
         disabled={isLoading}
       />
-      <FormRowVertical>
-        <Button $size="medium" $variation="primary" disabled={isLoading}>
-          {!isLoading ? 'Login' : <SpinnerMini />}
-        </Button>
-      </FormRowVertical>
+      <Button $size="medium" $variation="primary" disabled={isLoading}>
+        {isLoading ? <SpinnerMini /> : 'Login'}
+      </Button>
     </Form>
-  );
-}
-
-function FormField({ label, id, type = 'text', ...props }) {
-  return (
-    <FormRowVertical label={label}>
-      <Input type={type} id={id} {...props} />
-    </FormRowVertical>
   );
 }
 

@@ -92,6 +92,12 @@ button {
   cursor: not-allowed;
 }
 
+.error-text {
+font-size: 1.4rem;
+color: var(--color-accent-red);
+margin: 0.25rem 0 0 0;
+}
+
 select:disabled,
 input:disabled {
   background-color: var(--color-grey-200);

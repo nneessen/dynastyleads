@@ -1,9 +1,9 @@
-import { createAdSet } from '@/lib/adSets/adSetService';
+import { deleteCampaign } from '@/lib/campaigns/campaignService';
 import { handleSuccess, handleError } from '../utils/responseHandler';
 import { ERROR_CODES } from '../utils/errorCodes';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'DELETE') {
     return handleError(
       res,
       new Error(ERROR_CODES.METHOD_NOT_ALLOWED.message),
@@ -13,11 +13,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Example expected fields: name, budget, userId, etc.
-    // Adjust as needed for your adSets
-    const { name, budget, userId } = req.body;
+    // Example: campaignId from req.query if using /api/campaigns/delete/[id]
+    const { campaignId } = req.query;
 
-    if (!name || !budget || !userId) {
+    if (!campaignId) {
       return handleError(
         res,
         new Error(ERROR_CODES.BAD_REQUEST.message),
@@ -26,9 +25,8 @@ export default async function handler(req, res) {
       );
     }
 
-    // Call your service function to create the ad set
-    const data = await createAdSet({ name, budget, userId });
-    return handleSuccess(res, data, 201);
+    const result = await deleteCampaign(campaignId);
+    return handleSuccess(res, result, 200);
   } catch (error) {
     return handleError(res, error);
   }

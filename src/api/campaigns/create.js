@@ -1,10 +1,6 @@
-// TODO: complete POST create campaign logic
-
 import { handleSuccess, handleError } from '../utils/responseHandler';
 import { ERROR_CODES } from '../utils/errorCodes';
-import { createClient } from '../../utils/supabase/server';
-
-const supabase = createClient();
+import { createCampaign } from '@/lib/campaigns/campaignService';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -17,8 +13,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, budget } = req.body;
-    if (!name || !budget) {
+    // Example fields. Adjust to match your campaignService createCampaign signature.
+    const {
+      id,
+      campaign_name,
+      created_on,
+      states,
+      daily_budget,
+      lifecycle_budget,
+      is_active,
+      lead_types,
+      user_id,
+      campaign_type_id,
+      max_leads_per_day,
+      target_audience,
+      notes
+    } = req.body;
+
+    if (!campaign_name || !user_id) {
       return handleError(
         res,
         new Error(ERROR_CODES.BAD_REQUEST.message),
@@ -27,20 +39,24 @@ export default async function handler(req, res) {
       );
     }
 
-    const { data, error } = await supabase
-      .from('campaigns')
-      .insert([{ name, budget }]);
-    if (error) {
-      return handleError(
-        res,
-        new Error(error.message),
-        500,
-        ERROR_CODES.INTERNAL_SERVER_ERROR.code
-      );
-    }
+    const data = await createCampaign({
+      id,
+      campaign_name,
+      created_on,
+      states,
+      daily_budget,
+      lifecycle_budget,
+      is_active,
+      lead_types,
+      user_id,
+      campaign_type_id,
+      max_leads_per_day,
+      target_audience,
+      notes
+    });
 
-    handleSuccess(res, data, 201);
+    return handleSuccess(res, data, 201);
   } catch (error) {
-    handleError(res, error);
+    return handleError(res, error);
   }
 }

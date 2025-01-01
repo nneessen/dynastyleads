@@ -1,9 +1,9 @@
-import { createAdSet } from '@/lib/adSets/adSetService';
+import { updateAdSet } from '@/lib/adSets/adSetService';
 import { handleSuccess, handleError } from '../utils/responseHandler';
 import { ERROR_CODES } from '../utils/errorCodes';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'PUT') {
     return handleError(
       res,
       new Error(ERROR_CODES.METHOD_NOT_ALLOWED.message),
@@ -13,11 +13,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Example expected fields: name, budget, userId, etc.
-    // Adjust as needed for your adSets
-    const { name, budget, userId } = req.body;
+    // Typically, the adSetId might come from req.query if you use /adSets/update/[id].
+    // Or you can pass it in the body. Adjust as needed.
+    const { adSetId, ...updateData } = req.body;
 
-    if (!name || !budget || !userId) {
+    if (!adSetId) {
       return handleError(
         res,
         new Error(ERROR_CODES.BAD_REQUEST.message),
@@ -26,9 +26,8 @@ export default async function handler(req, res) {
       );
     }
 
-    // Call your service function to create the ad set
-    const data = await createAdSet({ name, budget, userId });
-    return handleSuccess(res, data, 201);
+    const updated = await updateAdSet(adSetId, updateData);
+    return handleSuccess(res, updated, 200);
   } catch (error) {
     return handleError(res, error);
   }

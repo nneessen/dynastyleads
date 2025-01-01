@@ -14,7 +14,7 @@ export function useLogout() {
     onSuccess: () => {
       toast.success('You have been logged out');
       queryClient.clear();
-      router.replace('/auth/login');
+      router.replace('/login');
     }
   });
 
