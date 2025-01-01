@@ -37,7 +37,9 @@ function LoginForm({ onSuccess }) {
         password: formData.password
       });
 
+      // TODO: refresh component to show logout link after user logs in
       toast.success('Login successful!');
+      // revalidatePath('/');
       setFormData({ email: '', password: '' });
 
       if (onSuccess) onSuccess(user);

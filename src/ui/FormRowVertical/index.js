@@ -9,14 +9,14 @@ const StyledFormRow = styled.div`
 `;
 
 const Label = styled.label`
-  font-family: inherit;
-  font-weight: 400;
-  /* filter: invert(1); // remove unless you specifically want inverted color */
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  filter: invert(1); // remove unless you specifically want inverted color */
 `;
 
 const Error = styled.span`
   font-size: 1.4rem;
-  color: var(--color-red-700);
+  color: var(--color-accent-red);
   margin: 0.25rem 0 0 0;
 `;
 
