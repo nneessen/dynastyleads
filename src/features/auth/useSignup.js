@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { signup } from '@/lib/auth/authService.js'; // Import your existing signup function
+import { signupUser } from '@/lib/auth/authService.js'; // Import your existing signup function
 import toast from 'react-hot-toast';
 
 export function useSignup() {
@@ -8,7 +8,7 @@ export function useSignup() {
     isLoading,
     error
   } = useMutation({
-    mutationFn: signup,
+    mutationFn: signupUser,
     onSuccess: () => {
       toast.success('User successfully created!');
     },

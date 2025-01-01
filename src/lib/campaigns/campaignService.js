@@ -1,5 +1,6 @@
-import supabase from '../../utils/supabase/middleware.js';
+import { createClient } from '@/utils/supabase/client.js';
 
+const supabase = createClient();
 export const createCampaign = async (campaignData) => {
   const {
     id,
