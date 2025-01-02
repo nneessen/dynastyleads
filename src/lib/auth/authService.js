@@ -169,14 +169,21 @@ export const deleteUser = async (id) => {
 };
 
 export const getCurrentUser = async () => {
-  const {
-    data: { user },
-    error
-  } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
 
   if (error) {
+    // Instead of throwing an error, return null or handle logic here
+    if (error.message.includes('Auth session missing')) {
+      return null;
+    }
+    // If it’s a different error, you might still want to throw it
     throw new Error(`Failed to get current user: ${error.message}`);
   }
 
-  return user;
+  // If there's no user in data, also return null
+  if (!data || !data.user) {
+    return null;
+  }
+
+  return data.user;
 };
