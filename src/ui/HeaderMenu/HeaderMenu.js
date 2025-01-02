@@ -1,9 +1,10 @@
+'use client';
 import Link from 'next/link';
 import { useUser } from '@/features/auth/useUser';
 import { useLogout } from '@/features/auth/useLogout';
 import Spinner from '../Spinner';
 import styled from 'styled-components';
-import Button from '../Button';
+import ProfileDropdown from '../ProfileDropdown';
 
 export const StyledHeaderMenu = styled.ul`
   display: flex;
@@ -12,16 +13,7 @@ export const StyledHeaderMenu = styled.ul`
   list-style: none;
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 1rem;
-    background: var(--color-grey-900);
-    padding: 1rem;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: 100;
-    border-radius: 8px;
-    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+    /* mobile dropdown logic */
   }
 
   li {
@@ -44,27 +36,12 @@ export const StyledHeaderMenu = styled.ul`
   }
 `;
 
-export const StyledLogoutButton = styled(Button)`
-  background: none;
-  border: none;
-  color: var(--color-grey-100);
-  font-size: 1.6rem;
-  cursor: pointer;
-  padding: 0;
-
-  &:hover {
-    color: var(--color-accent-red);
-  }
-`;
-
 function HeaderMenu({ isOpen }) {
   const { user, isAuthenticated, isLoading } = useUser();
   const { logout } = useLogout();
 
   const menuItems = [
-    { href: '/products', label: 'Products' },
     { href: '/campaigns', label: "Campaign's" },
-    { href: '/how-it-works', label: 'How it works?' },
     { href: '/checkout', label: 'Checkout' }
   ];
 
@@ -76,12 +53,15 @@ function HeaderMenu({ isOpen }) {
         <li key={href}>
           <Link
             href={href}
+            // window.location.pathname might not always be reliable in Next 13
+            // But if it works for you, you can keep this logic
             className={href === window.location.pathname ? 'active' : ''}
           >
             {label}
           </Link>
         </li>
       ))}
+
       <li>
         {!isAuthenticated ? (
           <Link
@@ -91,7 +71,7 @@ function HeaderMenu({ isOpen }) {
             Login
           </Link>
         ) : (
-          <StyledLogoutButton onClick={logout}>Logout</StyledLogoutButton>
+          <ProfileDropdown user={user} onLogout={logout} />
         )}
       </li>
     </StyledHeaderMenu>

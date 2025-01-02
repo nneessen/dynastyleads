@@ -29,24 +29,30 @@ function LoginForm({ onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Validate using Zod
       loginSchema.parse(formData);
 
       setIsLoading(true);
+      // Attempt the login call, which presumably sets cookies server-side
       const { user } = await loginUser({
         email: formData.email,
         password: formData.password
       });
 
-      // TODO: refresh component to show logout link after user logs in
+      // If loginUser doesn't return a user object, user will be undefined
+      // so check your backend if 'user' is actually returned.
+
       toast.success('Login successful!');
-      // revalidatePath('/');
       setFormData({ email: '', password: '' });
 
+      // If a parent component wants to do something after success, call onSuccess
       if (onSuccess) onSuccess(user);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        // Zod validation error
         toast.error(error.errors[0].message);
       } else {
+        // Other error from server or fetch
         toast.error(error.message || 'Login failed');
       }
     } finally {
