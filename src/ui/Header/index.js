@@ -1,4 +1,4 @@
-import HeaderMenu from '../HeaderMenu/HeaderMenu';
+import HeaderMenu from '@/ui/HeaderMenu';
 import Logo from '@/ui/Logo';
 import styled from 'styled-components';
 

@@ -1,10 +1,14 @@
 'use client';
 
+import dynamicImport from 'next/dynamic';
+export const dynamic = 'force-dynamic';
 import MultiStepForm from '@/ui/MultiStepForm';
-import NameCampaignStep from '@/features/forms/NameCampaignStep';
-import BudgetStep from '@/features/forms/BudgetStep';
-import StatesStep from '@/features/forms/StatesStep';
-import SubmitStep from '@/features/forms/SubmitStep';
+const NameCampaignStep = dynamicImport(
+  () => import('@/features/forms/NameCampaignStep')
+);
+const BudgetStep = dynamicImport(() => import('@/features/forms/BudgetStep'));
+const StatesStep = dynamicImport(() => import('@/features/forms/StatesStep'));
+const SubmitStep = dynamicImport(() => import('@/features/forms/SubmitStep'));
 import toast from 'react-hot-toast';
 import { useCreateCampaign } from '@/features/campaigns/useCreateCampaign';
 import { useCreateAdSet } from '@/features/adSets/useCreateAdSet';
@@ -25,13 +29,19 @@ function CampaignForm({ onSubmit }) {
 
   async function handleSubmit(data) {
     try {
-      const campaign = await new Promise((resolve, reject) =>
-        createCampaign(data, {
-          onSuccess: resolve,
-          onError: reject
-        })
-      );
+      const [campaign] = await Promise.all([
+        new Promise((resolve, reject) =>
+          createCampaign(data, {
+            onSuccess: resolve,
+            onError: reject
+          })
+        )
+        // If needed, the same pattern for Ad Set
+        // If you truly need the campaign ID for the Ad Set, keep them sequential
+        // or do a partial concurrency approach.
+      ]);
 
+      // If you do need the campaign id, do the adSet step next or also concurrently
       await new Promise((resolve, reject) =>
         createAdSet(
           {

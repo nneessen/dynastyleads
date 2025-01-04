@@ -6,13 +6,12 @@ import { updateSession } from '@/utils/supabase/middleware';
  * @returns {NextResponse} - The updated response from session handling.
  */
 export async function middleware(request) {
+  console.log('MIDDLEWARE RUN -> Path:', request.nextUrl.pathname);
   try {
     return await updateSession(request);
-  } catch (error) {
-    console.error('Middleware error:', error);
-    return new Response('An unexpected error occurred in middleware', {
-      status: 500
-    });
+  } catch (err) {
+    console.error('Middleware error:', err);
+    return new Response('Internal Middleware Error', { status: 500 });
   }
 }
 
