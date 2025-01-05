@@ -4,39 +4,40 @@ import styled from 'styled-components';
 import Heading from '@/ui/Heading';
 import { useUser } from '@/features/auth/useUser';
 
+/**
+ * SubmitStep is the final step in the multi-step form.
+ * We ensure that user_id is attached to formData right before calling onSubmit.
+ */
 function SubmitStep({ formData, onSubmit }) {
-  // 1) Get the logged-in user from Supabase
+  // 1) Get the logged-in user
   const { user, isLoading } = useUser();
 
-  /**
-   * Called when user clicks "Submit".
-   * We'll inject user_id into formData, then call onSubmit(formData).
-   */
+  // 2) Final click handler
   async function handleFinalSubmit() {
     console.log('[DEBUG SubmitStep] handleFinalSubmit called.');
 
-    // 2) If still loading user or no user, block or show error
+    // If user is still loading, block
     if (isLoading) {
-      console.log(
-        '[DEBUG SubmitStep] user is still loading, can’t submit yet.'
-      );
+      console.log('[DEBUG SubmitStep] user isLoading => cannot submit yet.');
       return;
     }
+    // If user has no id, show error or block
     if (!user?.id) {
-      console.log('[DEBUG SubmitStep] no user?.id, cannot create campaign.');
+      console.log(
+        '[DEBUG SubmitStep] user?.id is missing => cannot create campaign.'
+      );
       alert('You must be logged in to create a campaign');
       return;
     }
 
-    // 3) Insert user_id into formData
+    // 3) The critical fix:
+    // Attach user_id to the final formData
     formData.user_id = user.id;
 
-    console.log(
-      '[DEBUG SubmitStep] final formData before onSubmit ->',
-      formData
-    );
+    console.log('[DEBUG SubmitStep] final formData ->', formData);
 
-    // 4) Call onSubmit with the updated formData
+    // 4) Call the onSubmit from MultiStepForm
+    // which calls your useCreateCampaign logic
     onSubmit?.(formData);
   }
 
@@ -59,7 +60,6 @@ function SubmitStep({ formData, onSubmit }) {
         </p>
       </ReviewContainer>
 
-      {/* 5) The button triggers handleFinalSubmit */}
       <SubmitButton onClick={handleFinalSubmit}>Submit</SubmitButton>
     </StepContainer>
   );

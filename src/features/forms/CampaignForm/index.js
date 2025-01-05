@@ -9,6 +9,7 @@ import SubmitStep from '../SubmitStep/index.js';
 import toast from 'react-hot-toast';
 import { useCreateCampaign } from '../../campaigns/useCreateCampaign.js';
 import { useCreateAdSet } from '../../adSets/useCreateAdSet.js';
+import { useUser } from '@/features/auth/useUser.js';
 import { MORTGAGE_PLAN_LEVELS } from '../../../utils/constants.js';
 
 /**
@@ -17,6 +18,8 @@ import { MORTGAGE_PLAN_LEVELS } from '../../../utils/constants.js';
  * If your server still sees no user_id, it means the code isn't being used or is overridden.
  */
 function CampaignForm({ onSubmit }) {
+  const { user } = useUser();
+  const userId = user?.id;
   const searchParams = useSearchParams();
   const planType = searchParams.get('plan');
 
@@ -31,7 +34,7 @@ function CampaignForm({ onSubmit }) {
   async function handleSubmit(formData) {
     try {
       // 1) Force user_id for demonstration
-      formData.user_id = 'test-001';
+      formData.user_id = userId;
 
       // 2) Debug log so you see EXACT final data
       console.log('[DEBUG handleSubmit] final formData ->', formData);
