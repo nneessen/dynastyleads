@@ -1,5 +1,6 @@
 import { handleSuccess, handleError } from '../utils/responseHandler';
 import { ERROR_CODES } from '../utils/errorCodes';
+// The updated createCampaign now calls Meta first, then inserts in DB:
 import { createCampaign } from '@/lib/campaigns/campaignService';
 
 export default async function handler(req, res) {
@@ -13,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Example fields. Adjust to match your campaignService createCampaign signature.
+    // The fields remain exactly as in your snippet
     const {
       id,
       campaign_name,
@@ -39,6 +40,7 @@ export default async function handler(req, res) {
       );
     }
 
+    // This now calls the updated createCampaign that also does the Meta API call
     const data = await createCampaign({
       id,
       campaign_name,

@@ -1,7 +1,9 @@
 'use client';
 
 import dynamicImport from 'next/dynamic';
+// Force dynamic so Next won't try to prerender
 export const dynamic = 'force-dynamic';
+
 import MultiStepForm from '@/ui/MultiStepForm';
 const NameCampaignStep = dynamicImport(
   () => import('@/features/forms/NameCampaignStep')
@@ -9,6 +11,7 @@ const NameCampaignStep = dynamicImport(
 const BudgetStep = dynamicImport(() => import('@/features/forms/BudgetStep'));
 const StatesStep = dynamicImport(() => import('@/features/forms/StatesStep'));
 const SubmitStep = dynamicImport(() => import('@/features/forms/SubmitStep'));
+
 import toast from 'react-hot-toast';
 import { useCreateCampaign } from '@/features/campaigns/useCreateCampaign';
 import { useCreateAdSet } from '@/features/adSets/useCreateAdSet';
@@ -16,19 +19,24 @@ import { useSearchParams } from 'next/navigation';
 import { MORTGAGE_PLAN_LEVELS } from '@/utils/constants';
 
 function CampaignForm({ onSubmit }) {
+  // E.g. reading a plan from query param:
   const searchParams = useSearchParams();
   const planType = searchParams.get('plan');
 
+  // Our hooks for React Query
   const { createCampaign, isCreating: isCreatingCampaign } =
     useCreateCampaign();
   const { createAdSet, isCreating: isCreatingAdSet } = useCreateAdSet();
 
+  // Possibly find a plan config from MORTGAGE_PLAN_LEVELS
   const selectedPlan = MORTGAGE_PLAN_LEVELS.find(
     (plan) => plan.name === planType
   );
 
+  // Called when the user finishes all steps
   async function handleSubmit(data) {
     try {
+      // 1) Create the campaign (which calls Meta + inserts in DB)
       const [campaign] = await Promise.all([
         new Promise((resolve, reject) =>
           createCampaign(data, {
@@ -36,17 +44,14 @@ function CampaignForm({ onSubmit }) {
             onError: reject
           })
         )
-        // If needed, the same pattern for Ad Set
-        // If you truly need the campaign ID for the Ad Set, keep them sequential
-        // or do a partial concurrency approach.
       ]);
 
-      // If you do need the campaign id, do the adSet step next or also concurrently
+      // 2) If you need the campaign's id for the ad set, do it next
       await new Promise((resolve, reject) =>
         createAdSet(
           {
-            campaignId: campaign.id,
-            budget: data.budget,
+            campaignId: campaign.id, // from the newly created campaign
+            budget: data.budget, // or daily_budget
             geoLocations: data.states
           },
           {
