@@ -1,8 +1,13 @@
 'use client';
+
 import styled from 'styled-components';
 import Heading from '@/ui/Heading';
 import Input from '@/ui/Input';
 
+/**
+ * This step updates the "campaign_name" field instead of "campaignName".
+ * The server-side route checks "campaign_name".
+ */
 function NameCampaignStep({ formData, updateData }) {
   return (
     <StepContainer>
@@ -17,13 +22,12 @@ function NameCampaignStep({ formData, updateData }) {
       >
         Name Your Campaign
       </Heading>
+
       <Input
-        style={{
-          display: 'grid'
-        }}
+        style={{ display: 'grid' }}
         type="text"
-        value={formData.campaignName || ''}
-        onChange={(e) => updateData({ campaignName: e.target.value })}
+        value={formData.campaign_name || ''}
+        onChange={(e) => updateData({ campaign_name: e.target.value })}
         placeholder="Enter campaign name"
         autoFocus
       />

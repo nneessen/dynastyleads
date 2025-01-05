@@ -1,4 +1,5 @@
 'use client';
+// src/app/(campaigns)/campaigns/create-campaign/page.js
 
 import dynamicImport from 'next/dynamic';
 // Force dynamic so Next won't try to prerender
@@ -44,8 +45,8 @@ function CampaignForm({ onSubmit }) {
       await new Promise((resolve, reject) =>
         createAdSet(
           {
-            campaignId: campaign.id, // from the newly created campaign
-            budget: data.budget, // or daily_budget
+            campaignId: campaign.id,
+            budget: data.budget,
             geoLocations: data.states
           },
           {

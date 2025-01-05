@@ -3,13 +3,15 @@ import { createClient } from '@/utils/supabase/client.js';
 const META_GRAPH_API = process.env.META_GRAPH_API;
 const AD_ACCOUNT_ID = process.env.META_AD_ACCOUNT_ID;
 const ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
-console.log('[DEBUG] META_GRAPH_API=', META_GRAPH_API);
-console.log('[DEBUG] AD_ACCOUNT_ID=', AD_ACCOUNT_ID);
-console.log('[DEBUG] ACCESS_TOKEN=', ACCESS_TOKEN);
 
 const supabase = createClient();
 
+/**
+ * createCampaignOnMeta calls the Meta Graph API
+ * then inserts the campaign in Supabase with 'id = metaCampaignId'.
+ */
 export async function createCampaignOnMeta(campaignData) {
+  console.log('[DEBUG campaignService.js] campaignData ->', campaignData);
   const {
     campaign_name,
     states,
@@ -26,6 +28,9 @@ export async function createCampaignOnMeta(campaignData) {
 
   try {
     // 1) Create the campaign in Meta
+    console.log(
+      '[DEBUG campaignService.js] POST to Meta with objective=OUTCOME_TRAFFIC'
+    );
     const metaResponse = await fetch(
       `${META_GRAPH_API}/${AD_ACCOUNT_ID}/campaigns`,
       {
@@ -38,10 +43,15 @@ export async function createCampaignOnMeta(campaignData) {
           name: campaign_name,
           objective: 'OUTCOME_TRAFFIC',
           status: is_active ? 'ACTIVE' : 'PAUSED',
-          special_ad_categories: ['NONE'] // or "HOUSING" if relevant
+          special_ad_categories: ['NONE']
         })
       }
     );
+    console.log(
+      '[DEBUG campaignService.js] metaResponse status=',
+      metaResponse.status
+    );
+    console.log('[DEBUG campaignService.js] metaResponse ok=', metaResponse.ok);
 
     if (!metaResponse.ok) {
       const errorBody = await metaResponse.json();
@@ -51,11 +61,13 @@ export async function createCampaignOnMeta(campaignData) {
     }
 
     const metaData = await metaResponse.json();
-    const metaCampaignId = metaData.id; // We'll store this in Supabase
+    const metaCampaignId = metaData.id;
+
+    console.log('[DEBUG campaignService.js] metaData ->', metaData);
 
     // 2) Insert into Supabase
     const { data, error } = await supabase.from('campaigns').insert({
-      id: metaCampaignId, // store the meta ID in our "id" column
+      id: metaCampaignId,
       campaign_name,
       states,
       daily_budget,
@@ -71,15 +83,21 @@ export async function createCampaignOnMeta(campaignData) {
     });
 
     if (error) {
+      console.log('[DEBUG campaignService.js] supabase insert error ->', error);
       throw new Error(`Supabase insert error: ${error.message}`);
     }
 
     return data;
   } catch (err) {
+    console.log(
+      '[DEBUG campaignService.js] createCampaignOnMeta error ->',
+      err
+    );
     throw new Error(`createCampaignOnMeta error: ${err.message}`);
   }
 }
-// 2. Fetch campaigns
+
+// The rest: getCampaigns, updateCampaign, deleteCampaign
 export const getCampaigns = async (filters = {}) => {
   try {
     const query = supabase.from('campaigns').select('*');
@@ -96,7 +114,6 @@ export const getCampaigns = async (filters = {}) => {
   }
 };
 
-// 3. Update campaign
 export const updateCampaign = async (id, updates) => {
   try {
     const { data, error } = await supabase
@@ -112,7 +129,6 @@ export const updateCampaign = async (id, updates) => {
   }
 };
 
-// 4. Delete campaign
 export const deleteCampaign = async (id) => {
   try {
     const { data, error } = await supabase
