@@ -21,6 +21,7 @@ function BudgetStep({ formData, updateData }) {
         value={formData.budget || ''}
         onChange={(e) => updateData({ budget: e.target.value })}
         placeholder="Enter your budget"
+        autoFocus
       />
     </StepContainer>
   );

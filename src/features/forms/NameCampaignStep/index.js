@@ -25,6 +25,7 @@ function NameCampaignStep({ formData, updateData }) {
         value={formData.campaignName || ''}
         onChange={(e) => updateData({ campaignName: e.target.value })}
         placeholder="Enter campaign name"
+        autoFocus
       />
     </StepContainer>
   );

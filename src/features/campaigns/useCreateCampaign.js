@@ -1,18 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { createCampaign as createCampaignApi } from '@/lib/campaigns/campaignService.js';
+import { useMutation } from '@tanstack/react-query';
 
 export function useCreateCampaign() {
-  const queryClient = useQueryClient();
-
-  const { mutate: createCampaign } = useMutation({
-    mutationFn: createCampaignApi,
-    onSuccess: () => {
-      toast.success('Campaign successfully created');
-      queryClient.invalidateQueries({ queryKey: ['campaigns'] });
-    },
-    onError: (err) => toast.error(err.message || 'Failed to create campaign')
+  const mutation = useMutation({
+    mutationFn: async (campaignData) => {
+      const response = await fetch('/api/campaigns/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(campaignData)
+      });
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(errorBody.error || 'Failed to create campaign');
+      }
+      const data = await response.json();
+      return data;
+    }
+    // onSuccess, onError, etc. if you want
   });
 
-  return { createCampaign };
+  return {
+    createCampaign: mutation.mutate,
+    isCreating: mutation.isLoading
+    // ...
+  };
 }

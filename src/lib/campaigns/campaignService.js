@@ -9,11 +9,9 @@ console.log('[DEBUG] ACCESS_TOKEN=', ACCESS_TOKEN);
 
 const supabase = createClient();
 
-export const createCampaign = async (campaignData) => {
+export async function createCampaignOnMeta(campaignData) {
   const {
-    id, // if you pass in an 'id' (Meta ID?), we might ignore or override it
     campaign_name,
-    created_on,
     states,
     daily_budget,
     lifecycle_budget,
@@ -27,6 +25,7 @@ export const createCampaign = async (campaignData) => {
   } = campaignData;
 
   try {
+    // 1) Create the campaign in Meta
     const metaResponse = await fetch(
       `${META_GRAPH_API}/${AD_ACCOUNT_ID}/campaigns`,
       {
@@ -39,7 +38,7 @@ export const createCampaign = async (campaignData) => {
           name: campaign_name,
           objective: 'OUTCOME_TRAFFIC',
           status: is_active ? 'ACTIVE' : 'PAUSED',
-          special_ad_categories: ['NONE'] // or HOUSING, etc., if needed
+          special_ad_categories: ['NONE'] // or "HOUSING" if relevant
         })
       }
     );
@@ -47,18 +46,17 @@ export const createCampaign = async (campaignData) => {
     if (!metaResponse.ok) {
       const errorBody = await metaResponse.json();
       throw new Error(
-        errorBody.error?.message || 'Meta campaign creation failed'
+        errorBody.error?.message || 'Failed to create campaign on Meta'
       );
     }
 
     const metaData = await metaResponse.json();
-    const metaCampaignId = metaData.id; // We'll store this as 'id' in Supabase
+    const metaCampaignId = metaData.id; // We'll store this in Supabase
 
-    // B) Insert into Supabase (using metaCampaignId as our 'id' column)
+    // 2) Insert into Supabase
     const { data, error } = await supabase.from('campaigns').insert({
-      id: metaCampaignId, // Overriding any passed-in 'id' from the argument
+      id: metaCampaignId, // store the meta ID in our "id" column
       campaign_name,
-      created_on: created_on || new Date(), // if you didn't pass one, default to now
       states,
       daily_budget,
       lifecycle_budget,
@@ -68,18 +66,19 @@ export const createCampaign = async (campaignData) => {
       campaign_type_id,
       max_leads_per_day,
       target_audience,
-      notes
+      notes,
+      created_on: new Date()
     });
 
-    if (error) throw error;
+    if (error) {
+      throw new Error(`Supabase insert error: ${error.message}`);
+    }
 
-    // Return the newly inserted row(s)
     return data;
   } catch (err) {
-    throw new Error(`Failed to create campaign in DB: ${err.message}`);
+    throw new Error(`createCampaignOnMeta error: ${err.message}`);
   }
-};
-
+}
 // 2. Fetch campaigns
 export const getCampaigns = async (filters = {}) => {
   try {

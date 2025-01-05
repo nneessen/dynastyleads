@@ -19,24 +19,19 @@ import { useSearchParams } from 'next/navigation';
 import { MORTGAGE_PLAN_LEVELS } from '@/utils/constants';
 
 function CampaignForm({ onSubmit }) {
-  // E.g. reading a plan from query param:
   const searchParams = useSearchParams();
   const planType = searchParams.get('plan');
 
-  // Our hooks for React Query
   const { createCampaign, isCreating: isCreatingCampaign } =
     useCreateCampaign();
   const { createAdSet, isCreating: isCreatingAdSet } = useCreateAdSet();
 
-  // Possibly find a plan config from MORTGAGE_PLAN_LEVELS
   const selectedPlan = MORTGAGE_PLAN_LEVELS.find(
     (plan) => plan.name === planType
   );
 
-  // Called when the user finishes all steps
   async function handleSubmit(data) {
     try {
-      // 1) Create the campaign (which calls Meta + inserts in DB)
       const [campaign] = await Promise.all([
         new Promise((resolve, reject) =>
           createCampaign(data, {
@@ -46,7 +41,6 @@ function CampaignForm({ onSubmit }) {
         )
       ]);
 
-      // 2) If you need the campaign's id for the ad set, do it next
       await new Promise((resolve, reject) =>
         createAdSet(
           {

@@ -1,22 +1,13 @@
-export function handleSuccess(res, data, status = 200) {
-  return res.status(status).json({
-    success: true,
-    data
-  });
+import { NextResponse } from 'next/server';
+
+export function handleSuccess(data, statusCode = 200) {
+  return NextResponse.json({ success: true, data }, { status: statusCode });
 }
 
-export function handleError(
-  res,
-  error,
-  status = 500,
-  code = 'INTERNAL_SERVER_ERROR'
-) {
-  const message = error.message || 'An unknown error occurred';
-  return res.status(status).json({
-    success: false,
-    error: {
-      code,
-      message
-    }
-  });
+export function handleError(error, statusCode = 500, code = 'INTERNAL_ERROR') {
+  // Possibly parse error, then
+  return NextResponse.json(
+    { success: false, error: { message: error.message, code } },
+    { status: statusCode }
+  );
 }
