@@ -1,7 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { useUser } from '@/features/auth/useUser';
-import { useLogout } from '@/features/auth/useLogout';
 import Spinner from '../Spinner';
 import styled from 'styled-components';
 import ProfileDropdown from '../ProfileDropdown';
@@ -37,15 +35,14 @@ export const StyledHeaderMenu = styled.ul`
 `;
 
 function HeaderMenu({ isOpen }) {
-  const { user, isAuthenticated, isLoading } = useUser();
-  const { logout } = useLogout();
-
+  const isAuthenticated = true;
+  // TODO: fix this
   const menuItems = [
     { href: '/campaigns', label: "Campaign's" },
     { href: '/checkout', label: 'Checkout' }
   ];
 
-  if (isLoading) return <Spinner />;
+  // if (trie) return <Spinner />;
 
   return (
     <StyledHeaderMenu isOpen={isOpen}>
@@ -71,7 +68,10 @@ function HeaderMenu({ isOpen }) {
             Login
           </Link>
         ) : (
-          <ProfileDropdown user={user} onLogout={logout} />
+          <ProfileDropdown
+            user={'Nick'}
+            onLogout={() => console.log('logout')}
+          />
         )}
       </li>
     </StyledHeaderMenu>

@@ -2,7 +2,6 @@
 
 import styled from 'styled-components';
 import Heading from '@/ui/Heading';
-import { useUser } from '@/features/auth/useUser';
 
 /**
  * SubmitStep is the final step in the multi-step form.
@@ -10,7 +9,6 @@ import { useUser } from '@/features/auth/useUser';
  */
 function SubmitStep({ formData, onSubmit }) {
   // 1) Get the logged-in user
-  const { user, isLoading } = useUser();
 
   // 2) Final click handler
   async function handleFinalSubmit() {
@@ -22,17 +20,17 @@ function SubmitStep({ formData, onSubmit }) {
       return;
     }
     // If user has no id, show error or block
-    if (!user?.id) {
-      console.log(
-        '[DEBUG SubmitStep] user?.id is missing => cannot create campaign.'
-      );
-      alert('You must be logged in to create a campaign');
-      return;
-    }
+    // if (!user?.id) {
+    //   console.log(
+    //     '[DEBUG SubmitStep] user?.id is missing => cannot create campaign.'
+    //   );
+    //   alert('You must be logged in to create a campaign');
+    //   return;
+    // }
 
     // 3) The critical fix:
     // Attach user_id to the final formData
-    formData.user_id = user.id;
+    // formData.user_id = user.id;
 
     console.log('[DEBUG SubmitStep] final formData ->', formData);
 

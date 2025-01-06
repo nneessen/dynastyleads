@@ -4,7 +4,6 @@ import { ServerStyleSheet } from 'styled-components';
 import AppLayout from '@/ui/AppLayout';
 import { ReactQueryProvider } from './providers/ReactQueryProvider';
 import GlobalStyles from '../styles/GlobalStyles.js';
-import { AuthProvider } from '@/context/AuthContext';
 
 const metadata = {
   title: 'Odyssey Leads',
@@ -19,12 +18,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>{styles}</head>
       <body>
-        <AuthProvider>
-          <ReactQueryProvider>
-            <GlobalStyles />
-            <AppLayout>{children}</AppLayout>
-          </ReactQueryProvider>
-        </AuthProvider>
+        <ReactQueryProvider>
+          <GlobalStyles />
+          <AppLayout>{children}</AppLayout>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Button from '@/ui/Button';
 import Form from '@/ui/Form/index.js';
 import SpinnerMini from '@/ui/SpinnerMini/index.js';
-import { useSignup } from './useSignup';
 
 const Input = styled.input`
   display: flex;
@@ -62,7 +61,6 @@ function SignupForm() {
   });
 
   const [errors, setErrors] = useState({});
-  const { isLoading, signup } = useSignup();
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -101,25 +99,25 @@ function SignupForm() {
       return;
     }
 
-    signup(formData, {
-      onSettled: () => {
-        setFormData({
-          email: '',
-          password: '',
-          full_name: '',
-          national_producer_number: '',
-          phone_number: '',
-          agency: '',
-          date_of_birth: '',
-          address_line_1: '',
-          address_line_2: '',
-          city: '',
-          state: '',
-          zip_code: ''
-        });
-        setErrors({});
-      }
-    });
+    // signup(formData, {
+    //   onSettled: () => {
+    //     setFormData({
+    //       email: '',
+    //       password: '',
+    //       full_name: '',
+    //       national_producer_number: '',
+    //       phone_number: '',
+    //       agency: '',
+    //       date_of_birth: '',
+    //       address_line_1: '',
+    //       address_line_2: '',
+    //       city: '',
+    //       state: '',
+    //       zip_code: ''
+    //     });
+    //     setErrors({});
+    //   }
+    // });
   };
 
   const fields = [
@@ -148,14 +146,14 @@ function SignupForm() {
             type={type}
             value={formData[id]}
             onChange={handleInputChange}
-            disabled={isLoading}
+            disabled={false}
             error={errors[id]}
           />
         ))}
       </FormWrapper>
       <FullWidthField>
-        <Button $size="medium" $variation="primary" disabled={isLoading}>
-          {!isLoading ? 'Sign Up' : <SpinnerMini />}
+        <Button $size="medium" $variation="primary" disabled={false}>
+          {false ? 'Sign Up' : <SpinnerMini />}
         </Button>
       </FullWidthField>
     </Form>
