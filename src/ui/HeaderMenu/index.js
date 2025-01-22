@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import Spinner from '../Spinner';
+import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
 import ProfileDropdown from '../ProfileDropdown';
 
@@ -35,6 +35,8 @@ export const StyledHeaderMenu = styled.ul`
 `;
 
 function HeaderMenu({ isOpen }) {
+  const pathname = usePathname();
+
   const isAuthenticated = true;
   // TODO: fix this
   const menuItems = [
@@ -52,7 +54,7 @@ function HeaderMenu({ isOpen }) {
             href={href}
             // window.location.pathname might not always be reliable in Next 13
             // But if it works for you, you can keep this logic
-            className={href === window.location.pathname ? 'active' : ''}
+            className={href === pathname ? 'active' : ''}
           >
             {label}
           </Link>
@@ -61,10 +63,7 @@ function HeaderMenu({ isOpen }) {
 
       <li>
         {!isAuthenticated ? (
-          <Link
-            href="/login"
-            className={window.location.pathname === '/login' ? 'active' : ''}
-          >
+          <Link href="/login" className={pathname === '/login' ? 'active' : ''}>
             Login
           </Link>
         ) : (
