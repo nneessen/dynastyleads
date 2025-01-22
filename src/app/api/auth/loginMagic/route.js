@@ -1,30 +1,24 @@
 // app/api/auth/loginMagic/route.js
-import { supabase } from '@/utils/supabase/client';
+import { supabase } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 export async function POST(req) {
-  try {
-    const { email } = await req.json();
+  const formData = await req.formData();
+  const email = formData.get('email');
 
-    // Magic link:
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: 'https://yourdomain.com' // or wherever you want Supabase to redirect after sign-in
-      }
-    });
-    if (error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 401
-      });
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: 'http://localhost:3000/campaigns' // or wherever
     }
+  });
 
-    return new Response(
-      JSON.stringify({ message: 'Check your email for the magic link!' }),
-      { status: 200 }
-    );
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500
+  if (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 401
     });
   }
+
+  // Possibly redirect or show a "check your email" page
+  redirect('/check-your-email');
 }

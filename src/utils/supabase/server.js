@@ -3,16 +3,16 @@ import { cookies } from 'next/headers';
 
 /**
  * Creates a server-side Supabase client.
- * This should be used in middleware or API routes for secure interactions with Supabase.
+ * Used in middleware or server-side routes for secure interactions.
  */
-export async function createClient() {
-  const cookieStore = await cookies();
+export async function getServerSupabase() {
+  const cookieStore = cookies();
 
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   ) {
-    throw new Error('Supabase environment variables are required');
+    throw new Error('Missing Supabase environment variables.');
   }
 
   return createServerClient(
@@ -26,9 +26,9 @@ export async function createClient() {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, {
                 ...options,
-                httpOnly: true, // Prevent client-side scripts from accessing cookies
-                secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-                sameSite: 'Strict' // Mitigate CSRF attacks
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'Strict'
               })
             );
           } catch (error) {

@@ -1,44 +1,26 @@
-import { createServerClient } from '@supabase/ssr';
+import { getServerSupabase } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function updateSession(request) {
+  // Create an initial response object
   const response = NextResponse.next({ request });
 
-  // CREATE A SERVER CLIENT WITH COOKIES...
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    {
-      cookies: {
-        getAll: () => request.cookies.getAll(),
-        setAll: (cookiesToSet) => {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, {
-              ...options,
-              httpOnly: true,
-              secure: process.env.NODE_ENV === 'production',
-              sameSite: 'Strict'
-            })
-          );
-        }
-      }
-    }
-  );
-
+  // Create a server client that can read/write cookies
+  const supabase = await getServerSupabase();
   const { data: { user } = {} } = await supabase.auth.getUser();
 
-  // ALLOW /login, /signup, /auth, etc. to skip redirect
+  // If user is missing and the route is NOT public, redirect to /login
   if (!user && !isPublicRoute(request)) {
     return redirectToLogin(request);
   }
 
+  // Otherwise, pass through
   return response;
 }
 
 function isPublicRoute(request) {
   const pathname = request.nextUrl.pathname;
-
-  // Allow these routes
+  // Example of allowing /login, /signup, and /auth routes
   if (
     pathname.startsWith('/login') ||
     pathname.startsWith('/signup') ||
@@ -46,7 +28,6 @@ function isPublicRoute(request) {
   ) {
     return true;
   }
-
   return false;
 }
 

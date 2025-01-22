@@ -38,24 +38,17 @@ function HeaderMenu({ isOpen }) {
   const pathname = usePathname();
 
   const isAuthenticated = true;
-  // TODO: fix this
+  // TODO: isAuthenticated is doing nothing and i don't know what to do.
   const menuItems = [
     { href: '/campaigns', label: "Campaign's" },
     { href: '/checkout', label: 'Checkout' }
   ];
 
-  // if (trie) return <Spinner />;
-
   return (
     <StyledHeaderMenu isOpen={isOpen}>
       {menuItems.map(({ href, label }) => (
         <li key={href}>
-          <Link
-            href={href}
-            // window.location.pathname might not always be reliable in Next 13
-            // But if it works for you, you can keep this logic
-            className={href === pathname ? 'active' : ''}
-          >
+          <Link href={href} className={href === pathname ? 'active' : ''}>
             {label}
           </Link>
         </li>
