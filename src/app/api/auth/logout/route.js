@@ -1,9 +1,9 @@
 // app/api/auth/logout/route.js
-import { cookies } from 'next/headers';
-import { supabase } from '@/utils/supabase/server';
+import { getServerSupabase } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 export async function POST() {
-  // Sign out on the server if you'd like:
+  const supabase = await getServerSupabase();
   const { error } = await supabase.auth.signOut();
   if (error) {
     return new Response(JSON.stringify({ error: error.message }), {
@@ -11,10 +11,12 @@ export async function POST() {
     });
   }
 
-  // Clear tokens from cookies:
-  const cookieStore = cookies();
-  cookieStore.delete('access_token');
-  cookieStore.delete('refresh_token');
+  // Clear cookies automatically or manually
+  // For manual approach:
+  // const response = NextResponse.redirect('/login');
+  // response.cookies.delete('access_token');
+  // response.cookies.delete('refresh_token');
+  // return response;
 
-  return new Response(JSON.stringify({ success: true }), { status: 200 });
+  redirect('/login');
 }

@@ -1,27 +1,22 @@
-// app/(campaigns)/campaigns/layout.js
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { supabase } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
+/**
+ * This layout runs on every request to /campaigns/...,
+ * checking if we have a valid Supabase session cookie.
+ */
 export default async function CampaignsLayout({ children }) {
-  const cookieStore = cookies();
-  const access_token = cookieStore.get('access_token')?.value;
-  const refresh_token = cookieStore.get('refresh_token')?.value;
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
 
-  if (!access_token) {
+  // If no session, SSR-redirect to /login
+  if (!session) {
     redirect('/login');
   }
 
-  // Use supabase server client to set session
-  supabase.auth.setSession({
-    access_token,
-    refresh_token: refresh_token || ''
-  });
-  const { data: { user } = {} } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
+  // Otherwise, render the children
   return <>{children}</>;
 }
