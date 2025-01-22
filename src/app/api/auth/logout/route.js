@@ -1,22 +1,14 @@
 // app/api/auth/logout/route.js
-import { getServerSupabase } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function POST() {
-  const supabase = await getServerSupabase();
+  const supabase = createRouteHandlerClient({ cookies: () => cookies() });
   const { error } = await supabase.auth.signOut();
   if (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 400
-    });
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
-
-  // Clear cookies automatically or manually
-  // For manual approach:
-  // const response = NextResponse.redirect('/login');
-  // response.cookies.delete('access_token');
-  // response.cookies.delete('refresh_token');
-  // return response;
-
-  redirect('/login');
+  // Clear session cookies automatically
+  return NextResponse.json({ success: true }, { status: 200 });
 }

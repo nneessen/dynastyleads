@@ -1,8 +1,7 @@
+'use client';
 import { useState } from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
-import { FaUser } from 'react-icons/fa'; // or any other icon
-import Button from '../Button';
+import { FaUser } from 'react-icons/fa';
 
 const ProfileDropdownContainer = styled.div`
   position: relative;
@@ -30,10 +29,8 @@ const DropdownMenu = styled.ul`
   right: 0;
   background: var(--color-grey-900);
   padding: 1rem;
-  margin: 0;
   list-style: none;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -65,23 +62,14 @@ export default function ProfileDropdown({ user, onLogout }) {
     setIsOpen((prev) => !prev);
   }
 
-  // Close the dropdown if you click outside (optional):
-  // You can implement a useEffect with a click event listener, etc.
-
   return (
     <ProfileDropdownContainer>
       <ProfileButton onClick={toggleDropdown}>
         <FaUser />
-        {user?.user_metadata?.full_name || user?.email || 'Profile'}
+        {user || 'Profile'}
       </ProfileButton>
       {isOpen && (
         <DropdownMenu>
-          <MenuItem>
-            <Link href="/settings">Settings</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link href="/profile">Profile</Link>
-          </MenuItem>
           <MenuItem>
             <button onClick={onLogout}>Logout</button>
           </MenuItem>
